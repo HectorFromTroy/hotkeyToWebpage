@@ -1,0 +1,23 @@
+{
+  "name": "HotkeyToWebpage",
+  "version": "1.0",
+  "description": "Opens webpage with hotkey",
+  "permissions": ["storage"],
+  "content_scripts": [
+    {
+      "matches": [
+        "<all_urls>"
+      ],
+      "js": ["content.js"]
+    }
+  ],
+  "background": {
+    "scripts": ["background.js"],
+    "persistent": false
+  },
+  "browser_action": {
+    "default_popup": "./hotkeyToWebpagePopup/public/index.html"
+  },
+  "content_security_policy": "script-src 'self' 'sha256-GgRxrVOKNdB4LrRsVPDSbzvfdV4UqglmviH9GoBJ5jk='; object-src 'self'",
+  "manifest_version": 2
+}
