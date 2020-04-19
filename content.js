@@ -1,15 +1,25 @@
 "use strict";
 
-// window.addEventListener("keydown", event =>{
-//  if((event.ctrlKey || event.metaKey) && event.code == 'KeyY'){
-//     chrome.runtime.sendMessage({
-//       "message": "open_new_tab", 
-//       "url": "https://www.youtube.com/"
-//     });
-//   }
-// });
+let hotkeys;
 
-chrome.runtime.onMessage.addListener(
-  function(request, sender, sendResponse) {
-  console.log(request.message);
+const getHotkeys = () => {
+  console.log("GETTING HOTKEYS")
+  chrome.storage.sync.get(null, response => {
+    hotkeys = response;
+  });  
+};
+
+getHotkeys();
+
+window.addEventListener("keydown", event =>{
+ if((event.ctrlKey || event.metaKey) && hotkeys[event.code.slice(3)]){
+   console.log("KEYDOWN")
+    chrome.runtime.sendMessage({
+      "message": "open_new_tab",
+      "url": hotkeys[event.code.slice(3)]
+    });
+  }
 });
+
+chrome.storage.onChanged.addListener(getHotkeys);
+
